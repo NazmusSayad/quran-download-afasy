@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "download": "^8.0.0"
+  },
+  "scripts": {
+    "start": "nodemon .",
+    "download": "node ."
+  }
+}
