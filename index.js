@@ -1,15 +1,19 @@
 const download = require('download')
+const { readFileSync, writeFileSync } = require('fs')
 
-const verses_mp3 = require('./data.mp3.js')
-const verses_ogg = require('./data.ogg.js')
-const allFormats = [verses_ogg, verses_mp3]
+const file = './verses-ogg.json'
 
+const Links = JSON.parse(readFileSync(file, 'utf-8'))
 ;(async () => {
-  for (let format of allFormats) {
-    for (let verse of format) {
-      const surahNumber = verse.split('/').at(-1).slice(0, 3)
-      await download(verse, `download/mp3/${surahNumber}`)
-      console.log(verse)
-    }
+  for (let verseLink of Links) {
+    const verseDetails = verseLink.split('/')
+    const format = verseDetails.at(-2)
+    const number = verseDetails.at(-1).slice(0, 3)
+
+    await download(verseLink, `download/${format}/${number}`)
+
+    Links.shift()
+    writeFileSync(file, JSON.stringify(Links))
+    console.log(verseLink)
   }
 })()
