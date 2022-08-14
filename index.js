@@ -2,6 +2,8 @@ const download = require('download')
 const { readFileSync, writeFileSync } = require('fs')
 
 const file = './verses-ogg.json'
+const errorFile = './verses-ogg-temp.json'
+
 const allLinks = JSON.parse(readFileSync(file, 'utf-8'))
 const TEMP_LINKS = [...allLinks]
 
@@ -18,6 +20,6 @@ const TEMP_LINKS = [...allLinks]
       console.log(verseLink)
     }
   } catch {
-    writeFileSync(file, JSON.stringify(TEMP_LINKS))
+    writeFileSync(errorFile, JSON.stringify(TEMP_LINKS))
   }
 })()
